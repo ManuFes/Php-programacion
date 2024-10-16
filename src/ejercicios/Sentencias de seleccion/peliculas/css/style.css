@@ -1,0 +1,24 @@
+.pelicula {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.poster {
+  width: 150px;
+  margin-right: 20px;
+}
+
+.info {
+  max-width: 600px;
+}
+
+.info h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.info .plataforma,
+.info .nota {
+  font-weight: bold;
+}

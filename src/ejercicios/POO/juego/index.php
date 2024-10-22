@@ -1,14 +1,90 @@
 <?php
-// Incluir las clases y utilidades antes de iniciar la sesión o procesar cualquier acción
-require_once 'clases.php';
-require_once 'utilidades.php';
-require_once 'procesar_accion.php';
+require_once 'personaje.php';
+require_once 'objetivo.php';
 
-session_start(); // Iniciar la sesión aquí, sin ninguna salida previa
+session_start(); // Iniciar la sesión después de cargar las clases
+
+// Función para inicializar los personajes y objetivos
+function inicializarPartida() {
+    $_SESSION['objetivos'] = [
+        'Goblin' => new Objetivo('Goblin', 50),
+        'Troll' => new Objetivo('Troll', 100),
+        'Gigante' => new Objetivo('Gigante', 150),
+    ];
+
+    unset($_SESSION['ultimo_personaje']);
+    unset($_SESSION['ultimo_objetivo']);
+}
 
 // Inicializar la partida si aún no se ha hecho
 if (!isset($_SESSION['objetivos'])) {
     inicializarPartida();
+}
+
+// Variables para mostrar estadísticas
+$mostrarEstadisticasPersonaje = false;
+$mostrarEstadisticasObjetivo = false;
+$objetivo = null;
+$nombrePersonaje = "Personaje"; // Valor por defecto
+$nombreObjetivo = "Objetivo";   // Valor por defecto
+
+// Procesar la selección del personaje y la acción
+if (isset($_POST['personaje']) && isset($_POST['boton'])) {
+    $personajeSeleccionado = $_POST['personaje'];
+    $botonPulsado = $_POST['boton'];
+    $objetivoSeleccionado = $_POST['objetivo'] ?? null;
+
+    // Guardar los valores seleccionados para no perderlos tras enviar el formulario
+    $_SESSION['ultimo_personaje'] = $personajeSeleccionado;
+    $_SESSION['ultimo_objetivo'] = $objetivoSeleccionado;
+
+    // Asignar el nombre del personaje seleccionado
+    switch ($personajeSeleccionado) {
+        case 'Paladin':
+            $personaje = new Paladin();
+            $nombrePersonaje = 'Paladín';
+            break;
+        case 'Mago':
+            $personaje = new Mago();
+            $nombrePersonaje = 'Mago';
+            break;
+        case 'Caballero':
+            $personaje = new Caballero();
+            $nombrePersonaje = 'Caballero';
+            break;
+        default:
+            echo "Error: Personaje no válido.<br>";
+            break;
+    }
+
+    // Asignar el nombre del objetivo seleccionado
+    if ($objetivoSeleccionado !== null) {
+        $objetivo = $_SESSION['objetivos'][$objetivoSeleccionado];
+        $nombreObjetivo = $objetivo->nombre;
+    }
+
+    // No hacer ninguna acción si el botón "Seleccionar" fue pulsado
+    if ($botonPulsado === 'seleccionar') {
+        // Simplemente recargar la página con las nuevas selecciones y actualizar los nombres en los botones.
+    } else {
+        // Ejecutar acción según el botón pulsado
+        if ($personaje !== null) {
+            if ($botonPulsado === 'accion' && $objetivoSeleccionado !== null) {
+                $personaje->atacar($objetivo);
+
+                // Actualizar el objetivo en la sesión después del ataque
+                $_SESSION['objetivos'][$objetivoSeleccionado] = $objetivo;
+
+            } elseif ($botonPulsado === 'estadisticas_personaje') {
+                $mostrarEstadisticasPersonaje = true;
+            } elseif ($botonPulsado === 'estadisticas_objetivo' && $objetivoSeleccionado !== null) {
+                // Cargar el objetivo desde la sesión y mostrar sus estadísticas
+                $mostrarEstadisticasObjetivo = true;
+            } elseif ($botonPulsado === 'reiniciar') {
+                inicializarPartida();
+            }
+        }
+    }
 }
 ?>
 
@@ -20,52 +96,81 @@ if (!isset($_SESSION['objetivos'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Personajes</title>
     <link rel="stylesheet" href="css/style.css">
-    <script>
-        function seleccionarPersonaje(personaje) {
-            // Actualizamos el input oculto con el valor del personaje seleccionado
-            document.getElementById('personaje').value = personaje;
-            console.log("Personaje seleccionado: " + personaje); // Depuración
+    <style>
+        /* Estilos para hacer que las imágenes sean seleccionables */
+        .character-selection img, .objective-selection img {
+            width: 150px;
+            height: auto;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s;
         }
 
-        function seleccionarObjetivo(objetivo) {
-            // Actualizamos el input oculto con el valor del objetivo seleccionado
-            document.getElementById('objetivo').value = objetivo;
-            console.log("Objetivo seleccionado: " + objetivo); // Depuración
+        input[type="radio"] {
+            display: none;
         }
-    </script>
+
+        input[type="radio"]:checked + img {
+            border: 2px solid #00f;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Selecciona un Personaje</h1>
     <form method="POST" action="">
-        <!-- Inputs ocultos para almacenar los valores seleccionados -->
-        <input type="hidden" name="personaje" id="personaje">
-        <input type="hidden" name="objetivo" id="objetivo">
-
-        <!-- Selección de Personajes -->
-        <div class="seleccion-personajes">
-            <img id="personaje-Paladin" src="img/paladin.jpg" class="seleccionable" onclick="seleccionarPersonaje('Paladin')" alt="Paladín">
-            <img id="personaje-Mago" src="img/mago.jpg" class="seleccionable" onclick="seleccionarPersonaje('Mago')" alt="Mago">
-            <img id="personaje-Caballero" src="img/caballero.jpg" class="seleccionable" onclick="seleccionarPersonaje('Caballero')" alt="Caballero">
+        <!-- Selección de personajes -->
+        <div class="character-selection">
+            <label>
+                <input type="radio" name="personaje" value="Paladin" <?= isset($_SESSION['ultimo_personaje']) && $_SESSION['ultimo_personaje'] == 'Paladin' ? 'checked' : '' ?>>
+                <img src="img/paladin.jpg" alt="Paladín">
+            </label>
+            <label>
+                <input type="radio" name="personaje" value="Mago" <?= isset($_SESSION['ultimo_personaje']) && $_SESSION['ultimo_personaje'] == 'Mago' ? 'checked' : '' ?>>
+                <img src="img/mago.jpg" alt="Mago">
+            </label>
+            <label>
+                <input type="radio" name="personaje" value="Caballero" <?= isset($_SESSION['ultimo_personaje']) && $_SESSION['ultimo_personaje'] == 'Caballero' ? 'checked' : '' ?>>
+                <img src="img/caballero.jpg" alt="Caballero">
+            </label>
         </div>
-
-        <br>
-        <h1>Selecciona un Objetivo</h1>
-        <div class="seleccion-personajes">
-            <img id="objetivo-Goblin" src="img/goblin.jpg" class="seleccionable" onclick="seleccionarObjetivo('Goblin')" alt="Goblin">
-            <img id="objetivo-Troll" src="img/troll.jpg" class="seleccionable" onclick="seleccionarObjetivo('Troll')" alt="Troll">
-            <img id="objetivo-Gigante" src="img/gigante.jpg" class="seleccionable" onclick="seleccionarObjetivo('Gigante')" alt="Gigante">
-        </div>
-
         <br><br>
 
+        <h2>Selecciona un Objetivo</h2>
+        <!-- Selección de objetivos -->
+        <div class="objective-selection">
+            <label>
+                <input type="radio" name="objetivo" value="Goblin" <?= isset($_SESSION['ultimo_objetivo']) && $_SESSION['ultimo_objetivo'] == 'Goblin' ? 'checked' : '' ?>>
+                <img src="img/goblin.jpg" alt="Goblin">
+            </label>
+            <label>
+                <input type="radio" name="objetivo" value="Troll" <?= isset($_SESSION['ultimo_objetivo']) && $_SESSION['ultimo_objetivo'] == 'Troll' ? 'checked' : '' ?>>
+                <img src="img/troll.jpg" alt="Troll">
+            </label>
+            <label>
+                <input type="radio" name="objetivo" value="Gigante" <?= isset($_SESSION['ultimo_objetivo']) && $_SESSION['ultimo_objetivo'] == 'Gigante' ? 'checked' : '' ?>>
+                <img src="img/gigante.jpg" alt="Gigante">
+            </label>
+        </div>
+        <br><br>
+
+        <!-- Botón de seleccionar para actualizar los botones de acción y estadísticas -->
         <button type="submit" name="boton" value="seleccionar">Seleccionar</button>
+
+        <!-- Botón para realizar la acción con el nombre del personaje -->
         <button type="submit" name="boton" value="accion"><?= $nombrePersonaje ?> realiza acción contra <?= $nombreObjetivo ?></button>
+
+        <!-- Botón para mostrar las estadísticas del personaje -->
         <button type="submit" name="boton" value="estadisticas_personaje">Mostrar Estadísticas de <?= $nombrePersonaje ?></button>
+
+        <!-- Botón para mostrar las estadísticas del objetivo -->
         <button type="submit" name="boton" value="estadisticas_objetivo">Mostrar Estadísticas de <?= $nombreObjetivo ?></button>
+
+        <!-- Botón para reiniciar la partida -->
         <button type="submit" name="boton" value="reiniciar">Reiniciar Partida</button>
     </form>
 
+    <!-- Mostrar las estadísticas si se seleccionaron -->
     <?php if (isset($mostrarEstadisticasPersonaje) && $mostrarEstadisticasPersonaje): ?>
         <h2>Estadísticas del Personaje</h2>
         <?php $personaje->mostrarAtributos(); ?>

@@ -18,14 +18,12 @@ class Objetivo {
     public function calcularDefensa() {
         $dado = rand(1, 6);  // Tirada del dado de defensa
         $reduccion = $dado / 6; // Se calcula el porcentaje de reducción de daño
-    
+
         // Mostrar la imagen correspondiente al dado de defensa
         echo "Tirada del dado de defensa:<br> <img src='img/{$dado}.jpg' alt='Dado de defensa {$dado}'><br>";
         echo "Reducción de daño: " . round($reduccion * 100, 2) . "%<br>";
-    
         return $reduccion;
     }
-    
 
     public function recibirDaño($daño, $nombreAtacante) {
         $reduccion = $this->calcularDefensa();
@@ -41,3 +39,4 @@ class Objetivo {
         }
     }
 }
+?>

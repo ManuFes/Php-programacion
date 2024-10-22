@@ -35,14 +35,13 @@ class Personaje {
         $dado = rand(1, 6);  // Tirada del dado
         $multiplicador = $dado / 6; // Se calcula el porcentaje basado en el dado
         $dañoReal = $this->daño * $multiplicador;
-    
+
         // Mostrar la imagen correspondiente al dado
-        echo "Tirada del dado:<br> <img src='img/{$dado}.jpg' alt='Dado {$dado}'><br>";
+        echo "Tirada del dado de ataque:<br> <img src='img/{$dado}.jpg' alt='Dado {$dado}'><br>";
         echo "Daño real causado: " . round($dañoReal, 2) . "<br>";
-    
+
         return $dañoReal;
     }
-    
 
     public function atacar($objetivo) {
         $daño = $this->calcularDaño();
@@ -74,3 +73,4 @@ class Caballero extends Personaje implements Batalla {
         parent::__construct('Caballero', 200, 25, 120);
     }
 }
+?>

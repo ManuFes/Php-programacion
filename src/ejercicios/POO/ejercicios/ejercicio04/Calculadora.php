@@ -7,4 +7,3 @@ class Calculadora {
 
 $resultado = Calculadora::sumar(10, 20);
 echo "El resultado de la suma es: " . $resultado;
-?>

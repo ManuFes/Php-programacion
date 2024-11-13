@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;1,700&display=swap");
+
+/* Carousel Container */
+.conteudo__geral {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4em 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-carrossel {
+  --widthItem: 200px;
+  --heightItem: 150px;
+  width: var(--widthItem);
+  height: var(--heightItem);
+  perspective: 1200px;
+}
+
+/* Carousel Structure */
+.carrossel {
+  --rotatey: 0;
+  position: relative;
+  transform: rotateY(var(--rotatey));
+  transform-style: preserve-3d;
+  user-select: none;
+  cursor: grab;
+}
+
+/* Carousel Items */
+.carrossel-item {
+  opacity: 0.5;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 100%;
+  border-radius: 8px;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.carrossel-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.carrossel-item:hover {
+  opacity: 1;
+}
+
+/* Carousel Item Positions */
+.carrossel-item:nth-child(1) {
+  --rotatey: 0deg;
+  transform: rotateY(var(--rotatey)) translateZ(300px);
+  background: linear-gradient(-229deg, #fbd52d, #ef3a7b);
+}
+
+.carrossel-item:nth-child(2) {
+  --rotatey: 60deg;
+  transform: rotateY(var(--rotatey)) translateZ(300px);
+  background: linear-gradient(-229deg, #ff70af, #5fa8f5);
+}
+
+.carrossel-item:nth-child(3) {
+  --rotatey: 120deg;
+  transform: rotateY(var(--rotatey)) translateZ(300px);
+  background: linear-gradient(-229deg, #0cebeb, #29ffc6);
+}
+
+.carrossel-item:nth-child(4) {
+  --rotatey: 180deg;
+  transform: rotateY(var(--rotatey)) translateZ(300px);
+  background: linear-gradient(-229deg, #88f7f9, #048fff);
+}
+
+.carrossel-item:nth-child(5) {
+  --rotatey: 240deg;
+  transform: rotateY(var(--rotatey)) translateZ(300px);
+  background: linear-gradient(-229deg, #0093e9, #80d0c7);
+}
+
+.carrossel-item:nth-child(6) {
+  --rotatey: 300deg;
+  transform: rotateY(var(--rotatey)) translateZ(300px);
+  background: linear-gradient(-229deg, #cf91ff, #5782f5);
+}
+
+/* Responsive Design */
+@media screen and (min-width: 576px) {
+  .container-carrossel {
+    --widthItem: 250px;
+    --heightItem: 200px;
+  }
+}

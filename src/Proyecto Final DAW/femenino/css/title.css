@@ -1,0 +1,13 @@
+/* title.css */
+header {
+    width: 100%;
+    padding: 20px;
+    background-color: #ffc1e3; /* Rosa claro */
+    color: #fff;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 10px;
+    font-size: 2em;
+}

@@ -1,0 +1,90 @@
+/* Estilos para el formulario de registro - Tema Femenino */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  min-height: 100vh;
+  background-color: #ffe4e1; /* Fondo rosa claro */
+}
+
+.form_area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #ffc1e3; /* Fondo un poco más oscuro */
+  padding: 20px;
+  width: 320px;
+  border: 2px solid #ff69b4; /* Borde rosa fuerte */
+  border-radius: 20px;
+  box-shadow: 3px 4px 0px 1px #ff85b9; /* Sombra */
+}
+
+.title {
+  color: #ff69b4; /* Rosa fuerte */
+  font-weight: 900;
+  font-size: 1.5em;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.sub_title {
+  font-weight: 600;
+  margin: 5px 0;
+  color: #8b2641; /* Rosa oscuro */
+}
+
+.form_group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.form_style {
+  outline: none;
+  border: 2px solid #ff69b4; /* Borde rosa fuerte */
+  box-shadow: 3px 4px 0px 1px #ff85b9;
+  width: 100%;
+  padding: 12px 10px;
+  border-radius: 4px;
+  font-size: 15px;
+  transition: box-shadow 0.3s ease;
+}
+
+.form_style:focus {
+  box-shadow: 1px 2px 0px 0px #ff85b9;
+}
+
+.btn {
+  padding: 15px;
+  margin-top: 20px;
+  width: 100%;
+  font-size: 15px;
+  background: #ff69b4; /* Fondo del botón en rosa fuerte */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 800;
+  box-shadow: 3px 3px 0px 0px #ff85b9;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.link {
+  font-weight: 800;
+  color: #8b2641; /* Rosa oscuro */
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

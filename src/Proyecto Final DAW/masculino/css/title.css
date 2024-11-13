@@ -1,0 +1,14 @@
+/* Estilos del Título */
+header {
+    width: 100%;
+    padding: 20px;
+    background-color: #0288d1; /* Azul fuerte */
+    color: #fff;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 10px;
+    font-size: 2em;
+    font-family: Arial, sans-serif;
+}

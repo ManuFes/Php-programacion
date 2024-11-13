@@ -1,0 +1,85 @@
+/* Contenedor principal */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  min-height: 100vh;
+  background-color: #e0f7fa;
+}
+
+/* Área del formulario */
+.form_area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #b3e5fc; /* Azul pastel */
+  padding: 20px;
+  width: 320px;
+  border: 2px solid #0288d1;
+  border-radius: 20px;
+  box-shadow: 3px 4px 0px 1px #4fc3f7;
+}
+
+/* Título */
+.title {
+  color: #0277bd; /* Azul oscuro */
+  font-weight: 900;
+  font-size: 1.5em;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* Subtítulo de los campos */
+.sub_title {
+  font-weight: 600;
+  margin: 5px 0;
+  color: #0288d1;
+}
+
+/* Grupo de formulario */
+.form_group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin: 10px 0;
+}
+
+/* Estilo de los campos de entrada */
+.form_style {
+  outline: none;
+  border: 2px solid #0288d1;
+  box-shadow: 3px 4px 0px 1px #4fc3f7;
+  width: 100%;
+  padding: 12px 10px;
+  border-radius: 4px;
+  font-size: 15px;
+  transition: box-shadow 0.3s ease;
+}
+
+.form_style:focus {
+  box-shadow: 1px 2px 0px 0px #4fc3f7;
+}
+
+/* Botón de envío */
+.btn {
+  padding: 15px;
+  margin-top: 20px;
+  width: 100%;
+  font-size: 15px;
+  background: #0288d1;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 800;
+  box-shadow: 3px 3px 0px 0px #4fc3f7;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}

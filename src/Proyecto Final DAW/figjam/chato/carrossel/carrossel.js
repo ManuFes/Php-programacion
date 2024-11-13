@@ -30,4 +30,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Comienza el carrusel al cargar el DOM
   initCarrossel();
+  
 });

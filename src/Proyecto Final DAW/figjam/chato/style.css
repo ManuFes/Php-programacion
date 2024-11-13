@@ -149,7 +149,8 @@ a {
 
 .hero-title {
     font-size: 3rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Sombra difusa */
 }
@@ -184,6 +185,8 @@ a {
 .section-title {
     text-align: center;
     font-size: 2.5rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
     margin-bottom: 2rem;
 }
 

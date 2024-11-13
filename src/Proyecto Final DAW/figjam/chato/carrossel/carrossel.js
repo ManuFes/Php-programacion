@@ -1,61 +1,33 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const container = document.querySelector(".conteudo__geral .container");
-  const containerCarrossel = container.querySelector(".container-carrossel");
-  const carrossel = container.querySelector(".carrossel");
-  const carrosselItems = carrossel.querySelectorAll(".carrossel-item");
+document.addEventListener("DOMContentLoaded", () => {
+  // Configuración del carrusel
+  const carrossel = document.querySelector(".carrossel");
+  const carrosselItems = Array.from(carrossel.querySelectorAll(".carrossel-item"));
+  const totalItems = carrosselItems.length;
 
-  let isMouseDown = false;
-  let currentMousePos = 0;
-  let lastMousePos = 0;
-  let lastMoveTo = 0;
-  let moveTo = 0;
+  // Ajustes de rotación
+  const rotationAngle = 360 / totalItems; // Calcula el ángulo de rotación entre cada elemento
+  let currentAngle = 0;
 
-  const createCarrossel = () => {
-    const carrosselProps = containerCarrossel.getBoundingClientRect();
-    const length = carrosselItems.length;
-    const degrees = 360 / length;
-    const gap = 20;
-    const tz = carrosselProps.width / 2 / Math.tan(Math.PI / length) + gap;
-
-    carrosselItems.forEach((item, i) => {
-      const degreesByItem = degrees * i + "deg";
-      item.style.setProperty("--rotatey", degreesByItem);
-      item.style.setProperty("--tz", tz + "px");
+  // Función para posicionar los elementos en 3D
+  function positionItems() {
+    carrosselItems.forEach((item, index) => {
+      const angle = index * rotationAngle;
+      item.style.transform = `rotateY(${angle}deg) translateZ(300px)`;
     });
-  };
+  }
 
-  const lerp = (a, b, n) => n * (a - b) + b;
+  // Función de rotación automática
+  function autoRotate() {
+    currentAngle -= rotationAngle; // Ajusta el ángulo para el siguiente ítem
+    carrossel.style.transform = `rotateY(${currentAngle}deg)`;
+  }
 
-  const getPosX = (x) => {
-    currentMousePos = x;
-    moveTo = currentMousePos < lastMousePos ? moveTo - 2 : moveTo + 2;
-    lastMousePos = currentMousePos;
-  };
+  // Inicializar el carrusel
+  function initCarrossel() {
+    positionItems(); // Posiciona los elementos iniciales
+    setInterval(autoRotate, 3000); // Llama a la rotación automática cada 3 segundos
+  }
 
-  const update = () => {
-    lastMoveTo = lerp(moveTo, lastMoveTo, 0.05);
-    carrossel.style.setProperty("--rotatey", lastMoveTo + "deg");
-    requestAnimationFrame(update);
-  };
-
-  const initEvents = () => {
-    carrossel.addEventListener("mousedown", () => {
-      isMouseDown = true;
-      carrossel.style.cursor = "grabbing";
-    });
-    carrossel.addEventListener("mouseup", () => {
-      isMouseDown = false;
-      carrossel.style.cursor = "grab";
-    });
-    container.addEventListener("mouseleave", () => (isMouseDown = false));
-
-    carrossel.addEventListener("mousemove", (e) => isMouseDown && getPosX(e.clientX));
-
-    window.addEventListener("resize", createCarrossel);
-
-    update();
-    createCarrossel();
-  };
-
-  initEvents();
+  // Comienza el carrusel al cargar el DOM
+  initCarrossel();
 });

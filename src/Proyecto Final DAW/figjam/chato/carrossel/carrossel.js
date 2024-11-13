@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Inicializar el carrusel
   function initCarrossel() {
     positionItems(); // Posiciona los elementos iniciales
-    setInterval(autoRotate, 3000); // Llama a la rotación automática cada 3 segundos
+    setInterval(autoRotate, 4000); // Llama a la rotación automática cada 3 segundos
   }
 
   // Comienza el carrusel al cargar el DOM
